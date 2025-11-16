@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-Task create_task(uint64_t data_size)
+Task create_task(uint64_t data_size, char * callback_name)
 {
     Task new_task;
     new_task._data = malloc((size_t)data_size * sizeof(size_t));
