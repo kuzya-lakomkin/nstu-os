@@ -6,6 +6,7 @@
 struct Task
 {
     int * _data;
+    void * _callback;
     uint32_t _data_slice;
     uint64_t _size;
 

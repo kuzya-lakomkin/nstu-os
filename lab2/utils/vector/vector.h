@@ -15,6 +15,7 @@ typedef struct Vector Vector;
 
 size_t vector_length(Vector * v);
 void * vector_get_by_id(Vector * v, size_t id);
+int vector_set_by_id(Vector * v, void * val, size_t id);
 
 Vector create_vector(size_t type_size);
 void destroy_vector(Vector * v);
@@ -23,5 +24,7 @@ int push_vector(Vector * v, void * elem);
 void * pop_vector(Vector * v);
 
 int is_vector_valid(Vector * v);
+
+void sort_vector(Vector * v, size_t s, size_t e, int (*comp)(void *, void *));
 
 #endif // __VECTOR_H
