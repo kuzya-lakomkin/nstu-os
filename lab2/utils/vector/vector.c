@@ -1,6 +1,7 @@
 #include "vector.h"
 
 #include <string.h>
+#include <stdio.h>
 
 static const size_t INITIAL_CAPACITY = 4, EXPAND_COEF = 2;
 
@@ -81,7 +82,8 @@ int vector_set_by_id(Vector * v, void * val, size_t id)
     {
         return 1;
     }
-    memcpy(v->_data + (id + v->_elem_size), val, v->_elem_size);
+    // printf("VAL: %d OG PTR: %p CUR PTR: %p", *(int *)val, v->_data, );
+    memcpy(v->_data + (id * v->_elem_size), val, v->_elem_size);
     
     return 0;
 }
@@ -107,16 +109,14 @@ int push_vector(Vector * v, void * elem)
     return 0;
 }
 
-void * pop_vector(Vector * v)
+void pop_vector(Vector * v)
 {
     if ((NULL == v) || (NULL == v->_data) || (0 == v->_size))
     {
-        return NULL;
+        return;
     }
 
     v->_size--;
-    
-    return v->_data + v->_size * v->_elem_size;
 }
 
 int is_vector_valid(Vector * v)
@@ -149,7 +149,10 @@ int _swap(Vector * v, size_t i, size_t j)
         return 1;
     }
 
-    return vector_set_by_id(v, tmp, j);
+    int res = vector_set_by_id(v, tmp, j);
+    free (tmp);
+
+    return res;
 }
 
 /**
@@ -161,19 +164,21 @@ size_t _partition_vector(Vector * v, size_t s, size_t e, int (*comp)(void *, voi
     size_t i = s, j = e;
     while (1)
     {
-        while (comp(vector_get_by_id(v, i), pivot) > 0)
+        while (comp(vector_get_by_id(v, i), pivot) < 0)
         {
             i++;
         }
-        while (comp(vector_get_by_id(v, j), pivot) < 0)
+        while (comp(vector_get_by_id(v, j), pivot) > 0)
         {
-            j++;
+            j--;
         }
         if (i >= j)
         {
             return j;
         }
         _swap(v, i, j);
+        i++;
+        j--;
     }
 }
 
@@ -184,7 +189,7 @@ void sort_vector(Vector * v, size_t s, size_t e, int (*comp)(void *, void *))
 {
     if ((NULL == v) || (NULL == v->_data) || 
         (v->_size < 2) || (s >= v->_size) || 
-        (e >= v->_size) || (s > e) || (e - s < 2)
+        (e >= v->_size) || (s >= e) || (e - s < 2)
     ) {
         return;
     }

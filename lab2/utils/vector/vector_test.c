@@ -2,6 +2,11 @@
 
 #include <stdio.h>
 
+int comp(void * a, void * b)
+{
+    return *(int *)a - *(int *)b;
+}
+
 int main(void)
 {
     Vector v = create_vector(sizeof(int));
@@ -21,11 +26,61 @@ int main(void)
         push_vector(&v2, &i);
     }
 
-    for (size_t i = 0; i < count; ++i)
+    for (size_t i = 0; i < v2._size; ++i)
+    {
+        size_t val = *(int *)vector_get_by_id(&v2, i);
+    }
+
+    for (size_t i = 0; i < 3; ++i)
+    {
+        pop_vector(&v2);
+    }
+
+    printf("\n");
+
+    for (size_t i = 0; i < v2._size; ++i)
     {
         size_t val = *(int *)vector_get_by_id(&v2, i);
         printf("%lu ", val);
     }
 
+    int a1 = 2020, a2 = 3030;
+    
     destroy_vector(&v2);
+
+    Vector v3 = create_vector(sizeof(int));
+
+    int val = 60;
+    push_vector(&v3, (void *)&val);
+    val = 5;
+    push_vector(&v3, (void *)&val);
+    val = 7;
+    push_vector(&v3, (void *)&val);
+    val = 43;
+    push_vector(&v3, (void *)&val);
+    val = 51;
+    push_vector(&v3, (void *)&val);
+    val = 152;
+    push_vector(&v3, (void *)&val);
+    val = -3;
+    push_vector(&v3, (void *)&val);
+    val = 11;
+    push_vector(&v3, (void *)&val);
+    
+    printf("\n");
+    for (size_t i = 0; i < v3._size; ++i)
+    {
+        int val = *(int *)vector_get_by_id(&v3, i);
+        printf("%d ", val);
+    }
+    
+    printf("v_size: %lu\n", v._size);
+    sort_vector(&v3, 0, v3._size - 1, comp);
+    for (size_t i = 0; i < v3._size; ++i)
+    {
+        int val = *(int *)vector_get_by_id(&v3, i);
+        printf("%d ", val);
+    }
+
+    destroy_vector(&v3);
 }

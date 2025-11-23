@@ -21,10 +21,12 @@ Vector create_vector(size_t type_size);
 void destroy_vector(Vector * v);
 
 int push_vector(Vector * v, void * elem);
-void * pop_vector(Vector * v);
+void pop_vector(Vector * v);
 
 int is_vector_valid(Vector * v);
 
 void sort_vector(Vector * v, size_t s, size_t e, int (*comp)(void *, void *));
+void sort2_vector(Vector * v, int (*comp)(void *, void *));
+int _swap(Vector * v, size_t i, size_t j);
 
 #endif // __VECTOR_H
