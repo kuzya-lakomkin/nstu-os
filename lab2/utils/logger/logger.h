@@ -26,13 +26,13 @@ Logger * init_logger(const int stream, const LoggingMode mode, const char * form
 void finalize_logger(Logger * logger);
 
 Logger * get_logger();
-int does_logger_exists(Logger * logger);
+int does_logger_exists(const Logger * logger);
 
-void set_mode(LoggingMode mode);
-void set_format(char * format);
+void set_mode(const LoggingMode mode);
+void set_format(const char * format);
 
-void set_filter(int mode, int mask);
+void set_filter(const int mode, const int mask);
 
-int log(Logger * logger, char * msg);
+int log(const Logger * logger, const char * msg);
 
 #endif

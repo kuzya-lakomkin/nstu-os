@@ -63,6 +63,16 @@ size_t vector_length(Vector * v)
     return v->_size;
 }
 
+size_t vector_type_size(Vector * v)
+{
+    if (NULL == v)
+    {
+        return 0;
+    }
+
+    return v->_elem_size;
+}
+
 void * vector_get_by_id(Vector * v, size_t id)
 {
     if ((NULL == v) || (v->_data == NULL) || (id >= v->_size))

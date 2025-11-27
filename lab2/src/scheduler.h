@@ -6,7 +6,6 @@
 
 struct Scheduler
 {
-    Vector _task_list;
 
 };
 

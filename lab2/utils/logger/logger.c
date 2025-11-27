@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include <unistd.h>
+
+static const size_t BUFFER_SIZE = 1024;
 
 static Logger logger = {
     ._format = NULL,
@@ -56,7 +59,7 @@ void finalize_logger(Logger * l)
     l->_silent = 0;
 }
 
-int does_logger_exists(Logger * logger)
+int does_logger_exists(const Logger * logger)
 {
     return (NULL != logger) && (logger->_stream != -1);
 }
@@ -69,6 +72,17 @@ Logger * get_logger()
     }
 
     return &logger;
+}
+
+int log(const Logger * logger, const char * msg)
+{
+    if ((NULL == logger) || (NULL == msg))
+    {
+        return 1;
+    }
+
+    char buffer[BUFFER_SIZE];
+    
 }
 
 static int _is_stream_valid(const int stream)

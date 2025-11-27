@@ -14,6 +14,8 @@ struct Vector
 typedef struct Vector Vector;
 
 size_t vector_length(Vector * v);
+size_t vector_type_size(Vector * v);
+
 void * vector_get_by_id(Vector * v, size_t id);
 int vector_set_by_id(Vector * v, void * val, size_t id);
 
