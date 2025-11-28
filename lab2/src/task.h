@@ -3,26 +3,31 @@
 
 #include "utils/vector/vector.h"
 
-#include <inttypes.h>
+#include <stdlib.h>
 
 struct Scheduler;
 typedef struct Scheduler Scheduler;
 
+struct Task;
+typedef struct Task Task;
+
 struct Task
 {
-    Vector _data;
-    Vector _result;
+    Vector _data, _result, _params;
     Scheduler * _sched;
-    void (*_callback)(Task *);
+    int (*_callback)(Task *);
 };
-
-typedef struct Task Task;
 
 int init_task(
     Task * task,
     Scheduler * sched,
-    void (*task_callback)(Task *),
-    void (*fill_policy)(Vector *)
+    int (*task_callback)(Task *),
+    size_t data_size
+);
+
+int set_task_params(
+    Task * task,
+    Vector * paraml
 );
 
 void deinit_task(
@@ -36,6 +41,10 @@ int run_task(
 int get_task_result(
     const Task * task,
     Vector * result
+);
+
+int task_fn(
+    Task * t
 );
 
 #endif // __TASK_H

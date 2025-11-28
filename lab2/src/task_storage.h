@@ -7,7 +7,6 @@
 struct TaskStorage
 {
     Vector _storage;
-    
 };
 
 #endif

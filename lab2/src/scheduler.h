@@ -2,11 +2,11 @@
 #define __SCHEDULER_H
 
 #include "task.h"
-#include "vector/vector.h"
+#include "utils/vector/vector.h"
 
 struct Scheduler
 {
-
+    int a;
 };
 
 typedef struct Scheduler Scheduler;

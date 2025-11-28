@@ -83,4 +83,18 @@ int main(void)
     }
 
     destroy_vector(&v3);
+
+    Vector v4 = create_vector(sizeof(int));
+    for (int i = 0; i < 10; ++i)
+    {
+        push_vector(&v4, &i);
+    }
+
+    Vector v5;
+    copy_vector(&v5, &v4);
+
+    for (size_t i = 0; i < 10; ++i)
+    {
+        printf("%d %d\n", *(int *)vector_get_by_id(&v4, i), *(int *)vector_get_by_id(&v5, i));
+    }
 }

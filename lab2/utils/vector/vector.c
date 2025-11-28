@@ -39,6 +39,39 @@ Vector create_vector(size_t type_size)
     return new_vector;
 }
 
+Vector create_null_vector(size_t type_size)
+{
+    Vector new_vector = {
+        ._capacity = 0,
+        ._data = NULL,
+        ._elem_size = type_size,
+        ._size = 0
+    };
+
+    return new_vector;
+}
+
+int copy_vector(Vector * dst, Vector * src)
+{
+    if (!is_vector_valid(src) || (NULL == dst))
+    {
+        return 1;
+    }
+
+    dst->_data = malloc(src->_capacity * src->_elem_size);
+    if (NULL == dst->_data)
+    {
+        return 1;
+    }
+    memcpy(dst->_data, src->_data, src->_size * src->_elem_size);
+
+    dst->_elem_size = src->_elem_size;
+    dst->_capacity = src->_capacity;
+    dst->_size = src->_size;
+
+    return 0;
+}
+
 void destroy_vector(Vector * v)
 {
     if ((NULL == v) || (NULL == v->_data))
@@ -132,6 +165,16 @@ void pop_vector(Vector * v)
 int is_vector_valid(Vector * v)
 {
     return (NULL != v) && (NULL != v->_data);
+}
+
+int is_vector_empty(Vector * v)
+{
+    return (NULL == v) || (NULL == v->_data) || (v->_size == 0);
+}
+
+int is_vector_null(Vector * v)
+{
+    return (NULL == v) || (NULL == v->_data);
 }
 
 /**

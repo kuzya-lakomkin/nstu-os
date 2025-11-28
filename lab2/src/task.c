@@ -6,7 +6,8 @@
 typedef int TaskDataElem;
 
 static int random_task_vector(
-    Vector * v
+    Vector * v,
+    size_t cnt
 )
 {
     if (NULL == v)
@@ -15,7 +16,7 @@ static int random_task_vector(
     }
 
     srand(time(NULL));
-    for (size_t i = 0; i < vector_length(v); ++i)
+    for (size_t i = 0; i < cnt; ++i)
     {
         int new_elem = rand() % 1024;
         if (push_vector(v, &new_elem))
@@ -30,12 +31,12 @@ static int random_task_vector(
 int init_task(
     Task * task,
     Scheduler * sched,
-    void (*task_callback)(Task *),
-    void (*fill_policy)(Vector *)
+    int (*task_callback)(Task *),
+    size_t data_size
 )
 {
     if ((NULL == task) || (NULL == sched) || 
-        (NULL == task_callback) || (NULL == fill_policy))
+        (NULL == task_callback))
     {
         return 1;
     }
@@ -44,7 +45,17 @@ int init_task(
     task->_callback = task_callback;
     
     task->_data = create_vector(sizeof(TaskDataElem));
-    return !is_vector_valid(&(task->_data));
+    if (!is_vector_valid(&(task->_data)))
+    {
+        return 1;
+    }
+    if (random_task_vector(&(task->_data), data_size))
+    {
+        return 1;
+    }
+    task->_params = create_null_vector(sizeof(TaskDataElem));
+
+    return 0;
 }
 
 void deinit_task(
@@ -57,10 +68,26 @@ void deinit_task(
     }
 
     destroy_vector(&(task->_data));
-    destroy_vector(&(task->_result));
+    if (!is_vector_null(&task->_result))
+    {
+        destroy_vector(&task->_result);
+    }
 
     task->_sched = NULL;
     task->_callback = NULL;
+}
+
+int set_task_params(
+    Task * task,
+    Vector * params
+)
+{
+    if ((NULL == task) || !is_vector_valid(params))
+    {
+        return 1;
+    }
+
+    return copy_vector(&task->_params, params);
 }
 
 int run_task(
@@ -88,5 +115,5 @@ int get_task_result(
     }
     *result = task->_result;
 
-    return 1;
+    return 0;
 }
